@@ -1,5 +1,10 @@
-# Terraform Sample Skelton 
-Sample Terraform file layout (Skelton) example. There are many ways to layout files in a practical application development using Terraform, however I want to provide an example file layout so that early Terraform learner can start quickly. 
+# Terraform Sample Skeleton 
+Sample Terraform file layout (Skeleton) example. There are many ways to layout files in a practical application 
+development using Terraform, however I want to provide an example file layout so that early Terraform 
+learner can start quickly. 
+
+_Modularize_ is a holy grail for any type of software development. In Terraform, it's also applied. 
+This skeleton may give you an idea to lay out the files meaningfully to follow to modularize your Terraform code.
 
 **I welcome your feedback!**
 # Layout
@@ -7,21 +12,53 @@ Sample Terraform file layout (Skelton) example. There are many ways to layout fi
 | ---- | ---- |
 |  `terraform.tf`  |  Global Terraform setting.   |
 |  `envs/`  |  Environment settings and main resource definition. Typically this path includes `dev` or `staging`.|
-|  `envs/main.tf`  |  Main resource definition files.|
-|  `envs/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some values to the resources. |
-|  `envs/backend.tf`  |  (Recommended) The backend storage to store State file. |
-  `envs/provider.tf`  |  Terraform provider setting. |
-|  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` directory except `provider.tf` and `backend.tf`|
+|  `envs/<env_name>/main.tf`  |  Main resource definition files.|
+|  `envs/<env_name>/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some 
+values to the resources. |
+|  `envs/<env_name>/backend.tf`  |  (Recommended) The backend storage to store State file. |
+  `envs/<env_name>/provider.tf`  |  Terraform provider setting. |
+|  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` 
+directory except `provider.tf` and `backend.tf`|
 
 # Example usages for each files
 
 ## `main.tf`
-In `main.tf` you can do whatever you want do. But in a *Terraformy* way, you can basically use `module` key word to combine, integrate your modules.
+In `main.tf` you can do whatever you want to do. But in a *Terraformy* way, you can basically use `module` key word to combine, integrate your modules.
 
 ```HCL
 module "module1" {
   source         = "../../modules/module1"
   variable = "FooBar"
+}
+```
+
+You may also want to take the output from a module to pass another module as parameters. Here's the simple sample.
+
+- Example
+
+
+```HCL
+module "module1" {
+  source         = "../../modules/module1"
+  variable = "FooBar"
+}
+
+module "module2" {
+  source         = "../../modules/module2"
+  variable = module.module1.some_output
+}
+```
+
+The syntax to take outputs from modules are, 
+
+_module_.**<your_name_of_module>**.**<output_name>**
+
+In this case, you need to define the output data in `outputs.tf` in `modules/module1`,
+
+`modules/module1/outputs.tf`
+```HCL
+output "some_output" {
+  value   = aws_security_group.my_sg
 }
 ```
 
@@ -37,7 +74,7 @@ terraform {
 }
 ```
 ## `provider.tf`
-If you are going to deploy some cloud services, such as AWS, GCP or Azure this file include cloud provider configuration. 
+If you are going to deploy some cloud services, such as AWS, GCP or Azure this file includes cloud provider configuration. 
 
 - Example 1  
 For provider for AWS, it is commonly used for region setting. 
