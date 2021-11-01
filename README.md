@@ -10,15 +10,12 @@ This skeleton may give you an idea to lay out the files meaningfully to follow t
 # Layout
 |  Path  |  Description  |
 | ---- | ---- |
-|  `terraform.tf`  |  Global Terraform setting.   |
 |  `envs/`  |  Environment settings and main resource definition. Typically this path includes `dev` or `staging`.|
 |  `envs/<env_name>/main.tf`  |  Main resource definition files.|
-|  `envs/<env_name>/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some 
-values to the resources. |
+|  `envs/<env_name>/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some values to the resources. |
 |  `envs/<env_name>/backend.tf`  |  (Recommended) The backend storage to store State file. |
   `envs/<env_name>/provider.tf`  |  Terraform provider setting. |
-|  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` 
-directory except `provider.tf` and `backend.tf`|
+|  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` directory except `provider.tf` and `backend.tf`|
 
 # Example usages for each files
 
