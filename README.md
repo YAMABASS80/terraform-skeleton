@@ -14,11 +14,8 @@ This skeleton may give you an idea to lay out the files meaningfully to follow t
 |  `envs/<env_name>/main.tf`  |  Main resource definition files.|
 |  `envs/<env_name>/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some values to the resources. |
 |  `envs/<env_name>/backend.tf`  |  (Recommended) The backend storage to store State file. |
-<<<<<<< HEAD
-=======
 |  `envs/<env_name>/versions.tf`  |  (Recommended) Specify the terraform and provider versions. |
 |  `envs/<env_name>/local.tf`  |  (Recommended) Specify local variables. |
->>>>>>> issues/versioning
   `envs/<env_name>/provider.tf`  |  Terraform provider setting. |
 |  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` directory except `provider.tf` and `backend.tf`|
 
