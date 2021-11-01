@@ -5,12 +5,13 @@ Sample Terraform file layout (Skelton) example. There are many ways to layout fi
 # Layout
 |  Path  |  Description  |
 | ---- | ---- |
-|  `terraform.tf`  |  Global Terraform setting.   |
 |  `envs/`  |  Environment settings and main resource definition. Typically this path includes `dev` or `staging`.|
-|  `envs/main.tf`  |  Main resource definition files.|
-|  `envs/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some values to the resources. |
-|  `envs/backend.tf`  |  (Recommended) The backend storage to store State file. |
-  `envs/provider.tf`  |  Terraform provider setting. |
+|  `envs/<env_name>/main.tf`  |  Main resource definition files.|
+|  `envs/<env_name>/outputs.tf`  |  (Optional) If this resource is used by other resource, you may want to expose some values to the resources. |
+|  `envs/<env_name>/backend.tf`  |  (Recommended) The backend storage to store State file. |
+|  `envs/<env_name>/versions.tf`  |  (Recommended) Specify the terraform and provider versions. |
+|  `envs/<env_name>/local.tf`  |  (Recommended) Specify local variables. |
+  `envs/<env_name>/provider.tf`  |  Terraform provider setting. |
 |  `modules/`  |  (Optional) Modules directory. This directory is typically follow the same pattern with `envs` directory except `provider.tf` and `backend.tf`|
 
 # Example usages for each files
@@ -86,3 +87,18 @@ output "instance_ip_addr" {
   value = aws_instance.server.private_ip
 }
 ```
+
+## `version.tf`
+It is the best practice to specify the terraform and provider versions. It prevents your code from breaking change on versions. 
+
+```HCL
+terraform {
+  required_version = ">= <YOUR TERRAFORM VERSION>"
+  required_providers {
+    aws = "<PROVIDER VERSION>"
+  }
+}
+```
+
+## `local.tf`
+`locals` specifies the local variable processing. it is the best practice to locate all local variable into a file. 

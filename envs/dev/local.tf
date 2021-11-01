@@ -1,0 +1,4 @@
+locals {
+  some_keys {
+  }
+}
